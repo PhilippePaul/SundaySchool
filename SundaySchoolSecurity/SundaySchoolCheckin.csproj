@@ -7,8 +7,8 @@
     <ProjectGuid>{BCC46F27-50CB-441E-982E-64DEDA4260A1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SundaySchoolSecurity</RootNamespace>
-    <AssemblyName>SundaySchoolSecurity</AssemblyName>
+    <RootNamespace>SundaySchool</RootNamespace>
+    <AssemblyName>SundaySchool</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -70,6 +70,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.label1 = new System.Windows.Forms.Label();
             this.barcodeTxtBox = new System.Windows.Forms.TextBox();
             this.firstNameTextBox = new System.Windows.Forms.TextBox();
             this.lastNameTextBox = new System.Windows.Forms.TextBox();
@@ -52,6 +51,14 @@
             this.barCodeLabel = new System.Windows.Forms.Label();
             this.registeredProfilesLabel = new System.Windows.Forms.Label();
             this.registeredProfilesDataGridView = new System.Windows.Forms.DataGridView();
+            this.firstNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lastNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ageCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.genderCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.allergiesCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.waitForParentCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.barCodeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pictureFileNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ageUpDown)).BeginInit();
             this.profileGroupBox.SuspendLayout();
             this.waitForParentGroupBox.SuspendLayout();
@@ -59,13 +66,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.registeredProfilesDataGridView)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 23);
-            this.label1.TabIndex = 0;
             // 
             // barcodeTxtBox
             // 
@@ -162,16 +162,17 @@
             this.profileGroupBox.Controls.Add(this.lastNameTextBox);
             this.profileGroupBox.Controls.Add(this.ageUpDown);
             this.profileGroupBox.Controls.Add(this.lastNameLabel);
-            this.profileGroupBox.Location = new System.Drawing.Point(381, 26);
+            this.profileGroupBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.profileGroupBox.Location = new System.Drawing.Point(406, 0);
             this.profileGroupBox.Name = "profileGroupBox";
-            this.profileGroupBox.Size = new System.Drawing.Size(527, 464);
+            this.profileGroupBox.Size = new System.Drawing.Size(527, 502);
             this.profileGroupBox.TabIndex = 16;
             this.profileGroupBox.TabStop = false;
-            this.profileGroupBox.Text = "Profile";
+            this.profileGroupBox.Text = "Profil";
             // 
             // saveProfileBtn
             // 
-            this.saveProfileBtn.Location = new System.Drawing.Point(318, 435);
+            this.saveProfileBtn.Location = new System.Drawing.Point(9, 467);
             this.saveProfileBtn.Name = "saveProfileBtn";
             this.saveProfileBtn.Size = new System.Drawing.Size(75, 23);
             this.saveProfileBtn.TabIndex = 22;
@@ -181,16 +182,16 @@
             // 
             // allergiesTextBox
             // 
-            this.allergiesTextBox.Location = new System.Drawing.Point(315, 236);
+            this.allergiesTextBox.Location = new System.Drawing.Point(9, 237);
             this.allergiesTextBox.Multiline = true;
             this.allergiesTextBox.Name = "allergiesTextBox";
-            this.allergiesTextBox.Size = new System.Drawing.Size(206, 174);
+            this.allergiesTextBox.Size = new System.Drawing.Size(249, 174);
             this.allergiesTextBox.TabIndex = 21;
             // 
             // allergiesLabel
             // 
             this.allergiesLabel.AutoSize = true;
-            this.allergiesLabel.Location = new System.Drawing.Point(315, 219);
+            this.allergiesLabel.Location = new System.Drawing.Point(9, 220);
             this.allergiesLabel.Name = "allergiesLabel";
             this.allergiesLabel.Size = new System.Drawing.Size(46, 13);
             this.allergiesLabel.TabIndex = 20;
@@ -271,17 +272,86 @@
             this.registeredProfilesLabel.AutoSize = true;
             this.registeredProfilesLabel.Location = new System.Drawing.Point(13, 62);
             this.registeredProfilesLabel.Name = "registeredProfilesLabel";
-            this.registeredProfilesLabel.Size = new System.Drawing.Size(92, 13);
+            this.registeredProfilesLabel.Size = new System.Drawing.Size(80, 13);
             this.registeredProfilesLabel.TabIndex = 19;
-            this.registeredProfilesLabel.Text = "Liste d\'inscriptions";
+            this.registeredProfilesLabel.Text = "Liste des Profils";
             // 
             // registeredProfilesDataGridView
             // 
             this.registeredProfilesDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.registeredProfilesDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.firstNameCol,
+            this.lastNameCol,
+            this.ageCol,
+            this.genderCol,
+            this.allergiesCol,
+            this.waitForParentCol,
+            this.barCodeCol,
+            this.pictureFileNameCol});
             this.registeredProfilesDataGridView.Location = new System.Drawing.Point(12, 81);
             this.registeredProfilesDataGridView.Name = "registeredProfilesDataGridView";
-            this.registeredProfilesDataGridView.Size = new System.Drawing.Size(347, 409);
+            this.registeredProfilesDataGridView.Size = new System.Drawing.Size(347, 111);
             this.registeredProfilesDataGridView.TabIndex = 20;
+            // 
+            // firstNameCol
+            // 
+            this.firstNameCol.DataPropertyName = "FirstName";
+            this.firstNameCol.HeaderText = "Prénom";
+            this.firstNameCol.Name = "firstNameCol";
+            this.firstNameCol.ReadOnly = true;
+            // 
+            // lastNameCol
+            // 
+            this.lastNameCol.DataPropertyName = "LastName";
+            this.lastNameCol.HeaderText = "Nom";
+            this.lastNameCol.Name = "lastNameCol";
+            this.lastNameCol.ReadOnly = true;
+            // 
+            // ageCol
+            // 
+            this.ageCol.DataPropertyName = "Age";
+            this.ageCol.HeaderText = "Age";
+            this.ageCol.Name = "ageCol";
+            this.ageCol.ReadOnly = true;
+            // 
+            // genderCol
+            // 
+            this.genderCol.DataPropertyName = "Gender";
+            this.genderCol.HeaderText = "Sexe";
+            this.genderCol.Name = "genderCol";
+            this.genderCol.ReadOnly = true;
+            this.genderCol.Visible = false;
+            // 
+            // allergiesCol
+            // 
+            this.allergiesCol.DataPropertyName = "Allergies";
+            this.allergiesCol.HeaderText = "Allergies";
+            this.allergiesCol.Name = "allergiesCol";
+            this.allergiesCol.ReadOnly = true;
+            this.allergiesCol.Visible = false;
+            // 
+            // waitForParentCol
+            // 
+            this.waitForParentCol.DataPropertyName = "WaitForParent";
+            this.waitForParentCol.HeaderText = "Attendre Parent";
+            this.waitForParentCol.Name = "waitForParentCol";
+            this.waitForParentCol.ReadOnly = true;
+            // 
+            // barCodeCol
+            // 
+            this.barCodeCol.DataPropertyName = "BarCode";
+            this.barCodeCol.HeaderText = "Identifiant";
+            this.barCodeCol.Name = "barCodeCol";
+            this.barCodeCol.ReadOnly = true;
+            this.barCodeCol.Visible = false;
+            // 
+            // pictureFileNameCol
+            // 
+            this.pictureFileNameCol.DataPropertyName = "PictureFileName";
+            this.pictureFileNameCol.HeaderText = "Photo";
+            this.pictureFileNameCol.Name = "pictureFileNameCol";
+            this.pictureFileNameCol.ReadOnly = true;
+            this.pictureFileNameCol.Visible = false;
             // 
             // MainWindow
             // 
@@ -293,7 +363,6 @@
             this.Controls.Add(this.barCodeLabel);
             this.Controls.Add(this.profileGroupBox);
             this.Controls.Add(this.barcodeTxtBox);
-            this.Controls.Add(this.label1);
             this.Name = "MainWindow";
             ((System.ComponentModel.ISupportInitialize)(this.ageUpDown)).EndInit();
             this.profileGroupBox.ResumeLayout(false);
@@ -312,7 +381,6 @@
         #endregion
 
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox barcodeTxtBox;
         private System.Windows.Forms.TextBox firstNameTextBox;
         private System.Windows.Forms.TextBox lastNameTextBox;
@@ -335,6 +403,14 @@
         private System.Windows.Forms.Button saveProfileBtn;
         private System.Windows.Forms.Label registeredProfilesLabel;
         private System.Windows.Forms.DataGridView registeredProfilesDataGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn firstNameCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn lastNameCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ageCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn genderCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn allergiesCol;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn waitForParentCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn barCodeCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pictureFileNameCol;
     }
 }
 
