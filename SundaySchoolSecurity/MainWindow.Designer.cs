@@ -40,6 +40,7 @@
             this.genderFemaleBtn = new System.Windows.Forms.RadioButton();
             this.ageLabel = new System.Windows.Forms.Label();
             this.profileGroupBox = new System.Windows.Forms.GroupBox();
+            this.saveProfileBtn = new System.Windows.Forms.Button();
             this.allergiesTextBox = new System.Windows.Forms.TextBox();
             this.allergiesLabel = new System.Windows.Forms.Label();
             this.waitForParentLabel = new System.Windows.Forms.Label();
@@ -49,12 +50,14 @@
             this.genderGroupBox = new System.Windows.Forms.GroupBox();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.barCodeLabel = new System.Windows.Forms.Label();
-            this.saveProfileBtn = new System.Windows.Forms.Button();
+            this.registeredProfilesLabel = new System.Windows.Forms.Label();
+            this.registeredProfilesDataGridView = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.ageUpDown)).BeginInit();
             this.profileGroupBox.SuspendLayout();
             this.waitForParentGroupBox.SuspendLayout();
             this.genderGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.registeredProfilesDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -166,6 +169,16 @@
             this.profileGroupBox.TabStop = false;
             this.profileGroupBox.Text = "Profile";
             // 
+            // saveProfileBtn
+            // 
+            this.saveProfileBtn.Location = new System.Drawing.Point(318, 435);
+            this.saveProfileBtn.Name = "saveProfileBtn";
+            this.saveProfileBtn.Size = new System.Drawing.Size(75, 23);
+            this.saveProfileBtn.TabIndex = 22;
+            this.saveProfileBtn.Text = "Enregistrer";
+            this.saveProfileBtn.UseVisualStyleBackColor = true;
+            this.saveProfileBtn.Click += new System.EventHandler(this.saveProfileBtn_Click);
+            // 
             // allergiesTextBox
             // 
             this.allergiesTextBox.Location = new System.Drawing.Point(315, 236);
@@ -253,21 +266,30 @@
             this.barCodeLabel.TabIndex = 17;
             this.barCodeLabel.Text = "Identifiant:";
             // 
-            // saveProfileBtn
+            // registeredProfilesLabel
             // 
-            this.saveProfileBtn.Location = new System.Drawing.Point(318, 435);
-            this.saveProfileBtn.Name = "saveProfileBtn";
-            this.saveProfileBtn.Size = new System.Drawing.Size(75, 23);
-            this.saveProfileBtn.TabIndex = 22;
-            this.saveProfileBtn.Text = "Enregistrer";
-            this.saveProfileBtn.UseVisualStyleBackColor = true;
-            this.saveProfileBtn.Click += new System.EventHandler(this.saveProfileBtn_Click);
+            this.registeredProfilesLabel.AutoSize = true;
+            this.registeredProfilesLabel.Location = new System.Drawing.Point(13, 62);
+            this.registeredProfilesLabel.Name = "registeredProfilesLabel";
+            this.registeredProfilesLabel.Size = new System.Drawing.Size(92, 13);
+            this.registeredProfilesLabel.TabIndex = 19;
+            this.registeredProfilesLabel.Text = "Liste d\'inscriptions";
+            // 
+            // registeredProfilesDataGridView
+            // 
+            this.registeredProfilesDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.registeredProfilesDataGridView.Location = new System.Drawing.Point(12, 81);
+            this.registeredProfilesDataGridView.Name = "registeredProfilesDataGridView";
+            this.registeredProfilesDataGridView.Size = new System.Drawing.Size(347, 409);
+            this.registeredProfilesDataGridView.TabIndex = 20;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(933, 502);
+            this.Controls.Add(this.registeredProfilesDataGridView);
+            this.Controls.Add(this.registeredProfilesLabel);
             this.Controls.Add(this.barCodeLabel);
             this.Controls.Add(this.profileGroupBox);
             this.Controls.Add(this.barcodeTxtBox);
@@ -281,6 +303,7 @@
             this.genderGroupBox.ResumeLayout(false);
             this.genderGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.registeredProfilesDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -310,6 +333,8 @@
         private System.Windows.Forms.TextBox allergiesTextBox;
         private System.Windows.Forms.Label barCodeLabel;
         private System.Windows.Forms.Button saveProfileBtn;
+        private System.Windows.Forms.Label registeredProfilesLabel;
+        private System.Windows.Forms.DataGridView registeredProfilesDataGridView;
     }
 }
 
