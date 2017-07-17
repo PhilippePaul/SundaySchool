@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace SundaySchoolSecurity
+namespace SundaySchool
 {
     public enum Gender { Male, Female };
 
@@ -25,7 +21,14 @@ namespace SundaySchoolSecurity
 
         public Profile()
         {
-
+            FirstName = "";
+            LastName = "";
+            Age = -1;
+            Gender = Gender.Female;
+            Allergies = new List<string>();
+            WaitForParent = false;
+            PictureFileName = "";
+            BarCode = -1;
         }
     }
 }

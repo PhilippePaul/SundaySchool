@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
 
-namespace SundaySchoolSecurity
+namespace SundaySchool
 {
-    public partial class MainWindow : Form
+    public partial class MainWindow : Form, IDisposable
     {
-        private string DataFilePath = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\InscriptionsEcoleDuDimanche.json";
-        private List<Profile> AllProfiles = new List<Profile>();
-        private string WindowTitle = "Inscriptions École du Dimanche";
+        private static string AppFolder = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments)}\\Application_EDD\\";
+        private static string PictureFilePath = $"{AppFolder}Photos_EDD\\";
+        private static string ProfilesFilePath = $"{AppFolder}Profils_EDD.json";
+        private static string CheckinFilePath = $"{AppFolder}Inscriptions_EDD.json";
+        private static string ReportFilePath = $"{AppFolder}RapportInscriptions_EDD.xls";
+        private static string WindowTitle = "Inscriptions École du Dimanche";
+
+        private SortableBindingList<Profile> AllProfiles = new SortableBindingList<Profile>();
+        private SortableBindingList<CheckinEntry> AllCheckinEntries = new SortableBindingList<CheckinEntry>();
 
         public MainWindow()
         {
@@ -24,18 +26,31 @@ namespace SundaySchoolSecurity
             this.Text = WindowTitle;
             try
             {
-                if (File.Exists(DataFilePath))
+                Directory.CreateDirectory(PictureFilePath);
+                Directory.CreateDirectory(AppFolder);
+                if (File.Exists(ProfilesFilePath))
                 {
-                    string serializedJson = File.ReadAllText(DataFilePath);
-                    AllProfiles = JsonConvert.DeserializeObject<List<Profile>>(serializedJson) ?? new List<Profile>();
-                    registeredProfilesDataGridView.DataSource = AllProfiles;
+                    string serializedJson = File.ReadAllText(ProfilesFilePath);
+                    AllProfiles = JsonConvert.DeserializeObject<SortableBindingList<Profile>>(serializedJson) ?? new SortableBindingList<Profile>();
                 }
                 else
                 {
-                    File.Create(DataFilePath);
+                    File.Create(ProfilesFilePath);
                 }
+                if (File.Exists(CheckinFilePath))
+                {
+                    string serializedJson = File.ReadAllText(CheckinFilePath);
+                    AllCheckinEntries = JsonConvert.DeserializeObject<SortableBindingList<CheckinEntry>>(serializedJson) ?? new SortableBindingList<CheckinEntry>();
+                }
+                else
+                {
+                    File.Create(ProfilesFilePath);
+                }
+
+                registeredProfilesDataGridView.DataSource = AllProfiles;
+                checkinDataGridView.DataSource = AllCheckinEntries;
             }
-            catch(Exception e)
+            catch (Exception ex)
             {
                 //Handle exception
                 this.Text = $"{WindowTitle} - Il y a eu un problème lors du chargement des données.";
@@ -51,7 +66,7 @@ namespace SundaySchoolSecurity
             if (int.TryParse(txtBox.Text, out barCode))
             {
                 //Get profile by barcode
-                Profile profile = AllProfiles.Find(p => p.BarCode == barCode);
+                Profile profile = AllProfiles.FirstOrDefault(p => p.BarCode == barCode);
                 if (profile != null)
                 {
                     this.Text = WindowTitle;
@@ -77,7 +92,7 @@ namespace SundaySchoolSecurity
                 AllProfiles.Add(ExtractProfile());
                 try
                 {
-                    File.WriteAllText(DataFilePath, JsonConvert.SerializeObject(AllProfiles));
+                    File.WriteAllText(ProfilesFilePath, JsonConvert.SerializeObject(AllProfiles));
                     this.Text = $"{WindowTitle} - Le profile a été enregistré.";
                 }
                 catch (Exception ex)
@@ -85,6 +100,27 @@ namespace SundaySchoolSecurity
                     //Handle exception
                     this.Text = $"{WindowTitle} - Il y a eu une erreur lors de l'enregistrement du fichier.";
                 }
+            }
+        }
+
+        private void registeredProfilesDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            if (registeredProfilesDataGridView.SelectedRows.Count > 0)
+            {
+                var selectedRow = registeredProfilesDataGridView.SelectedRows[0];
+                if (selectedRow != null)
+                {
+                    LoadProfile(selectedRow.DataBoundItem as Profile);
+                }
+            }
+        }
+
+        private void choosePhotoBtn_Click(object sender, EventArgs e)
+        {
+            DialogResult result = selectFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                photoFileNameTextBox.Text = selectFileDialog.FileName;
             }
         }
 
@@ -102,6 +138,7 @@ namespace SundaySchoolSecurity
             allergiesTextBox.Lines = profile.Allergies.ToArray();
             waitForParentYesBtn.Checked = profile.WaitForParent;
             waitForParentNoBtn.Checked = !profile.WaitForParent;
+            photoFileNameTextBox.Text = profile.PictureFileName;
         }
 
         private Profile ExtractProfile()
@@ -114,30 +151,33 @@ namespace SundaySchoolSecurity
                 Gender = genderFemaleBtn.Checked ? Gender.Female : Gender.Male,
                 Allergies = allergiesTextBox.Lines.ToList(),
                 WaitForParent = waitForParentYesBtn.Checked,
+                PictureFileName = photoFileNameTextBox.Text,
                 BarCode = int.Parse(barcodeTxtBox.Text)
             };
             return profile;
         }
-        
+
         private bool ValidateProfile()
         {
             int barCode;
             if (string.IsNullOrWhiteSpace(firstNameTextBox.Text))
             {
-                //Display error message
                 this.Text = $"{WindowTitle} - Vous ne pouvez pas laissez le champ 'Prénom' vide.";
                 return false;
             }
-            else if(string.IsNullOrWhiteSpace(lastNameTextBox.Text))
+            else if (string.IsNullOrWhiteSpace(lastNameTextBox.Text))
             {
-                //Display error message
                 this.Text = $"{WindowTitle} - Vous ne pouvez pas laissez le champ 'Nom' vide.";
                 return false;
             }
-            else if(!int.TryParse(barcodeTxtBox.Text, out barCode))
+            else if (!int.TryParse(barcodeTxtBox.Text, out barCode))
             {
-                //Display error message
                 this.Text = $"{WindowTitle} - L'identifiant ne peut être composé que de chiffres.";
+                return false;
+            }
+            else if (!File.Exists($"{PictureFilePath}{photoFileNameTextBox.Text}"))
+            {
+                this.Text = $"{WindowTitle} - Le fichier de photo est introuvable.";
                 return false;
             }
             this.Text = WindowTitle;
@@ -150,8 +190,83 @@ namespace SundaySchoolSecurity
             lastNameTextBox.Text = "";
             ageUpDown.Value = 0;
             genderMaleBtn.Checked = true;
-            allergiesTextBox.Lines = new string[]{ };
+            allergiesTextBox.Lines = new string[] { };
             waitForParentYesBtn.Checked = true;
+        }
+
+        private void ExportToExcel()
+        {
+            if (File.Exists(CheckinFilePath))
+            {
+                Excel.Application excel = new Excel.Application();
+                Excel.Workbook wb = excel.Workbooks.Open(CheckinFilePath);
+                foreach (Excel.Worksheet sheet in wb.Sheets)
+                {
+                    if (sheet.Name == DateTime.Today.ToString())
+                    {
+
+                    }
+                }
+            }
+            else
+            {
+                File.Create(CheckinFilePath);
+            }
+        }
+
+        private void checkinDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (checkinDataGridView.Rows[e.RowIndex].DataBoundItem != null && checkinDataGridView.Columns[e.ColumnIndex].DataPropertyName.Contains('.'))
+                e.Value = BindProperty(checkinDataGridView.Rows[e.RowIndex].DataBoundItem, checkinDataGridView.Columns[e.ColumnIndex].DataPropertyName);
+        }
+
+        private string BindProperty(object property, string propertyName)
+        {
+            string retValue = "";
+
+            if (propertyName.Contains("."))
+            {
+                PropertyInfo[] arrayProperties;
+                string leftPropertyName;
+
+                leftPropertyName = propertyName.Substring(0, propertyName.IndexOf("."));
+                arrayProperties = property.GetType().GetProperties();
+
+                foreach (PropertyInfo propertyInfo in arrayProperties)
+                {
+                    if (propertyInfo.Name == leftPropertyName)
+                    {
+                        retValue = BindProperty(
+                          propertyInfo.GetValue(property, null),
+                          propertyName.Substring(propertyName.IndexOf(".") + 1));
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                Type propertyType;
+                PropertyInfo propertyInfo;
+
+                propertyType = property.GetType();
+                propertyInfo = propertyType.GetProperty(propertyName);
+                retValue = propertyInfo.GetValue(property, null).ToString();
+            }
+
+            return retValue;
+        }
+
+        private void SaveCheckinEntries()
+        {
+            try
+            {
+                File.WriteAllText(CheckinFilePath, JsonConvert.SerializeObject(AllCheckinEntries));
+            }
+            catch (Exception ex)
+            {
+                //Handle exception
+                this.Text = $"{WindowTitle} - Il y a eu une erreur lors de l'enregistrement du fichier.";
+            }
         }
 
         #endregion

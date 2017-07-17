@@ -59,5 +59,15 @@ namespace SundaySchool.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap photo_par_defaut {
+            get {
+                object obj = ResourceManager.GetObject("photo_par_defaut", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
