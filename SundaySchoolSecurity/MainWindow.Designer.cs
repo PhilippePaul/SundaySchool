@@ -68,6 +68,7 @@
             this.mainwindowTabControl = new System.Windows.Forms.TabControl();
             this.profilesTabPage = new System.Windows.Forms.TabPage();
             this.checkinTabPage = new System.Windows.Forms.TabPage();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.checkinDataGridView = new System.Windows.Forms.DataGridView();
             this.profileFirstNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.profileLastNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -76,6 +77,11 @@
             this.checkoutTimeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.commentsCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.personCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ageUpDown)).BeginInit();
             this.profileGroupBox.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -88,7 +94,9 @@
             this.mainwindowTabControl.SuspendLayout();
             this.profilesTabPage.SuspendLayout();
             this.checkinTabPage.SuspendLayout();
+            this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.checkinDataGridView)).BeginInit();
+            this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // barcodeTxtBox
@@ -261,7 +269,7 @@
             // 
             // saveProfileBtn
             // 
-            this.saveProfileBtn.Location = new System.Drawing.Point(9, 467);
+            this.saveProfileBtn.Location = new System.Drawing.Point(9, 441);
             this.saveProfileBtn.Name = "saveProfileBtn";
             this.saveProfileBtn.Size = new System.Drawing.Size(75, 23);
             this.saveProfileBtn.TabIndex = 22;
@@ -465,7 +473,7 @@
             // 
             // checkinTabPage
             // 
-            this.checkinTabPage.Controls.Add(this.checkinDataGridView);
+            this.checkinTabPage.Controls.Add(this.panel5);
             this.checkinTabPage.Location = new System.Drawing.Point(4, 22);
             this.checkinTabPage.Name = "checkinTabPage";
             this.checkinTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -474,8 +482,19 @@
             this.checkinTabPage.Text = "Présences";
             this.checkinTabPage.UseVisualStyleBackColor = true;
             // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.checkinDataGridView);
+            this.panel5.Controls.Add(this.panel6);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(3, 3);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(996, 470);
+            this.panel5.TabIndex = 1;
+            // 
             // checkinDataGridView
             // 
+            this.checkinDataGridView.AllowUserToAddRows = false;
             this.checkinDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.checkinDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.checkinDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -487,9 +506,9 @@
             this.commentsCol,
             this.personCol});
             this.checkinDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkinDataGridView.Location = new System.Drawing.Point(3, 3);
+            this.checkinDataGridView.Location = new System.Drawing.Point(0, 34);
             this.checkinDataGridView.Name = "checkinDataGridView";
-            this.checkinDataGridView.Size = new System.Drawing.Size(996, 470);
+            this.checkinDataGridView.Size = new System.Drawing.Size(996, 436);
             this.checkinDataGridView.TabIndex = 0;
             this.checkinDataGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.checkinDataGridView_CellFormatting);
             // 
@@ -544,6 +563,55 @@
             this.personCol.ReadOnly = true;
             this.personCol.Visible = false;
             // 
+            // panel6
+            // 
+            this.panel6.AutoSize = true;
+            this.panel6.Controls.Add(this.button2);
+            this.panel6.Controls.Add(this.button1);
+            this.panel6.Controls.Add(this.label1);
+            this.panel6.Controls.Add(this.textBox1);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel6.Location = new System.Drawing.Point(0, 0);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(996, 34);
+            this.panel6.TabIndex = 1;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(288, 8);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(160, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Inscrire";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 14);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Identifiant";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(62, 11);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(220, 20);
+            this.textBox1.TabIndex = 0;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(454, 8);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(151, 23);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "Désinscrire";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -567,7 +635,11 @@
             this.mainwindowTabControl.ResumeLayout(false);
             this.profilesTabPage.ResumeLayout(false);
             this.checkinTabPage.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.checkinDataGridView)).EndInit();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -621,6 +693,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn checkoutTimeCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn commentsCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn personCol;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }
 

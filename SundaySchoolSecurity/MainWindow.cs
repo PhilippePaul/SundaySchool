@@ -175,7 +175,7 @@ namespace SundaySchool
                 this.Text = $"{WindowTitle} - L'identifiant ne peut être composé que de chiffres.";
                 return false;
             }
-            else if (!File.Exists($"{PictureFilePath}{photoFileNameTextBox.Text}"))
+            else if (!string.IsNullOrWhiteSpace(photoFileNameTextBox.Text) && !File.Exists($"{PictureFilePath}{photoFileNameTextBox.Text}"))
             {
                 this.Text = $"{WindowTitle} - Le fichier de photo est introuvable.";
                 return false;
@@ -270,5 +270,43 @@ namespace SundaySchool
         }
 
         #endregion
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //Find profile and add
+            int barCode = -1;
+            int.TryParse(textBox1.Text.Trim(), out barCode);
+            var profile = AllProfiles.FirstOrDefault(p => p.BarCode == barCode);
+            if(profile != null)
+            {
+                CheckinEntry entry = new CheckinEntry()
+                {
+                    CheckinTime = DateTime.Now,
+                    Person = profile
+                };
+                AllCheckinEntries.Add(entry);
+            }
+            else
+            {
+                //Display invalid barcode number
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //Find profile and update
+            int barCode = -1;
+            int.TryParse(textBox1.Text.Trim(), out barCode);
+            var entry = AllCheckinEntries.FirstOrDefault(x => x.Person.BarCode == barCode);
+            if (entry != null)
+            {
+                entry.CheckoutTime = DateTime.Now;
+                checkinDataGridView.Refresh();
+            }
+            else
+            {
+                //Display invalid barcode number
+            }
+        }
     }
 }
