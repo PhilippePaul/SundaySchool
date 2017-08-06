@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace SundaySchool
@@ -19,6 +20,7 @@ namespace SundaySchool
 
         private SortableBindingList<Profile> AllProfiles = new SortableBindingList<Profile>();
         private SortableBindingList<CheckinEntry> AllCheckinEntries = new SortableBindingList<CheckinEntry>();
+        private DBConnection dbConnection = new DBConnection();
 
         public MainWindow()
         {
@@ -28,10 +30,13 @@ namespace SundaySchool
             {
                 Directory.CreateDirectory(PictureFilePath);
                 Directory.CreateDirectory(AppFolder);
+
+                AllProfiles = dbConnection.GetAllProfiles();
                 if (File.Exists(ProfilesFilePath))
                 {
                     string serializedJson = File.ReadAllText(ProfilesFilePath);
-                    AllProfiles = JsonConvert.DeserializeObject<SortableBindingList<Profile>>(serializedJson) ?? new SortableBindingList<Profile>();
+                    //AllProfiles = JsonConvert.DeserializeObject<SortableBindingList<Profile>>(serializedJson) ?? new SortableBindingList<Profile>();
+                    
                 }
                 else
                 {
@@ -52,21 +57,20 @@ namespace SundaySchool
             }
             catch (Exception ex)
             {
-                //Handle exception
-                this.Text = $"{WindowTitle} - Il y a eu un problème lors du chargement des données.";
+                MessageBox.Show($"Une erreur a eu lieu lors du chargement des profiles. {ex.Message}");
             }
         }
 
         #region Events
 
-        private void barcodeTxtBox_TextChanged(object sender, EventArgs e)
+        private void idTxtBox_TextChanged(object sender, EventArgs e)
         {
             TextBox txtBox = sender as TextBox;
-            int barCode;
-            if (int.TryParse(txtBox.Text, out barCode))
+            int id;
+            if (int.TryParse(txtBox.Text, out id))
             {
-                //Get profile by barcode
-                Profile profile = AllProfiles.FirstOrDefault(p => p.BarCode == barCode);
+                //Get profile by id
+                Profile profile = AllProfiles.FirstOrDefault(p => p.Id == id);
                 if (profile != null)
                 {
                     this.Text = WindowTitle;
@@ -89,17 +93,11 @@ namespace SundaySchool
         {
             if (ValidateProfile())
             {
-                AllProfiles.Add(ExtractProfile());
-                try
-                {
-                    File.WriteAllText(ProfilesFilePath, JsonConvert.SerializeObject(AllProfiles));
-                    this.Text = $"{WindowTitle} - Le profile a été enregistré.";
-                }
-                catch (Exception ex)
-                {
-                    //Handle exception
-                    this.Text = $"{WindowTitle} - Il y a eu une erreur lors de l'enregistrement du fichier.";
-                }
+                var profile = ExtractProfile();
+                if (AllProfiles.FirstOrDefault(p => p.Id == profile.Id) == null)
+                    CreateProfile(profile);
+                else
+                    UpdateProfile(profile);
             }
         }
 
@@ -128,6 +126,42 @@ namespace SundaySchool
 
         #region Private methods
 
+        private void UpdateProfile(Profile updatedProfile)
+        {
+            try
+            {
+                //Do this to update the profiles list through INotifyPropertyChanged
+                Profile profile = AllProfiles.FirstOrDefault(p => p.Id == updatedProfile.Id);
+                profile.FirstName = updatedProfile.FirstName;
+                profile.LastName = updatedProfile.LastName;
+                profile.Age = updatedProfile.Age;
+                profile.Gender = updatedProfile.Gender;
+                profile.Allergies = updatedProfile.Allergies;
+                profile.WaitForParent = updatedProfile.WaitForParent;
+                profile.PictureFileName = updatedProfile.PictureFileName;
+                dbConnection.UpdateProfile(profile);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Il y a eu une erreur lors de l'enregistrement du profile. {ex.Message}");
+            }
+        }
+
+        private void CreateProfile(Profile profile)
+        {
+            try
+            {
+                AllProfiles.Add(profile);
+                //File.WriteAllText(ProfilesFilePath, JsonConvert.SerializeObject(AllProfiles));
+                dbConnection.CreateProfile(profile);
+                this.Text = $"{WindowTitle} - Le profile a été enregistré.";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Il y a eu une erreur lors de l'enregistrement du profile. {ex.Message}");
+            }
+        }
+
         private void LoadProfile(Profile profile)
         {
             firstNameTextBox.Text = profile.FirstName;
@@ -147,19 +181,19 @@ namespace SundaySchool
             {
                 FirstName = firstNameTextBox.Text,
                 LastName = lastNameTextBox.Text,
-                Age = (int)ageUpDown.Value,
+                Age = (uint)ageUpDown.Value,
                 Gender = genderFemaleBtn.Checked ? Gender.Female : Gender.Male,
                 Allergies = allergiesTextBox.Lines.ToList(),
                 WaitForParent = waitForParentYesBtn.Checked,
                 PictureFileName = photoFileNameTextBox.Text,
-                BarCode = int.Parse(barcodeTxtBox.Text)
+                Id = int.Parse(idTxtBox.Text)
             };
             return profile;
         }
 
         private bool ValidateProfile()
         {
-            int barCode;
+            int id;
             if (string.IsNullOrWhiteSpace(firstNameTextBox.Text))
             {
                 this.Text = $"{WindowTitle} - Vous ne pouvez pas laissez le champ 'Prénom' vide.";
@@ -170,7 +204,7 @@ namespace SundaySchool
                 this.Text = $"{WindowTitle} - Vous ne pouvez pas laissez le champ 'Nom' vide.";
                 return false;
             }
-            else if (!int.TryParse(barcodeTxtBox.Text, out barCode))
+            else if (!int.TryParse(idTxtBox.Text, out id))
             {
                 this.Text = $"{WindowTitle} - L'identifiant ne peut être composé que de chiffres.";
                 return false;
@@ -274,9 +308,9 @@ namespace SundaySchool
         private void button1_Click(object sender, EventArgs e)
         {
             //Find profile and add
-            int barCode = -1;
-            int.TryParse(textBox1.Text.Trim(), out barCode);
-            var profile = AllProfiles.FirstOrDefault(p => p.BarCode == barCode);
+            int id = -1;
+            int.TryParse(textBox1.Text.Trim(), out id);
+            var profile = AllProfiles.FirstOrDefault(p => p.Id == id);
             if(profile != null)
             {
                 CheckinEntry entry = new CheckinEntry()
@@ -288,16 +322,16 @@ namespace SundaySchool
             }
             else
             {
-                //Display invalid barcode number
+                //Display invalid id number
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             //Find profile and update
-            int barCode = -1;
-            int.TryParse(textBox1.Text.Trim(), out barCode);
-            var entry = AllCheckinEntries.FirstOrDefault(x => x.Person.BarCode == barCode);
+            int id = -1;
+            int.TryParse(textBox1.Text.Trim(), out id);
+            var entry = AllCheckinEntries.FirstOrDefault(x => x.Person.Id == id);
             if (entry != null)
             {
                 entry.CheckoutTime = DateTime.Now;
@@ -305,7 +339,7 @@ namespace SundaySchool
             }
             else
             {
-                //Display invalid barcode number
+                //Display invalid id number
             }
         }
     }

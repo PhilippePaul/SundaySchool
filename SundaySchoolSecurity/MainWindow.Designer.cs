@@ -30,7 +30,7 @@
         private void InitializeComponent()
         {
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.barcodeTxtBox = new System.Windows.Forms.TextBox();
+            this.idTxtBox = new System.Windows.Forms.TextBox();
             this.firstNameTextBox = new System.Windows.Forms.TextBox();
             this.lastNameTextBox = new System.Windows.Forms.TextBox();
             this.ageUpDown = new System.Windows.Forms.NumericUpDown();
@@ -51,7 +51,7 @@
             this.allergiesLabel = new System.Windows.Forms.Label();
             this.waitForParentLabel = new System.Windows.Forms.Label();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.barCodeLabel = new System.Windows.Forms.Label();
+            this.idLabel = new System.Windows.Forms.Label();
             this.registeredProfilesDataGridView = new System.Windows.Forms.DataGridView();
             this.firstNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lastNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,7 +59,7 @@
             this.genderCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.allergiesCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.waitForParentCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.barCodeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.idCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pictureFileNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2 = new System.Windows.Forms.Panel();
             this.profileListGroupBox = new System.Windows.Forms.GroupBox();
@@ -78,10 +78,10 @@
             this.commentsCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.personCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ageUpDown)).BeginInit();
             this.profileGroupBox.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -99,14 +99,14 @@
             this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
-            // barcodeTxtBox
+            // idTxtBox
             // 
-            this.barcodeTxtBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.barcodeTxtBox.Location = new System.Drawing.Point(190, 5);
-            this.barcodeTxtBox.Name = "barcodeTxtBox";
-            this.barcodeTxtBox.Size = new System.Drawing.Size(279, 20);
-            this.barcodeTxtBox.TabIndex = 1;
-            this.barcodeTxtBox.TextChanged += new System.EventHandler(this.barcodeTxtBox_TextChanged);
+            this.idTxtBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.idTxtBox.Location = new System.Drawing.Point(190, 5);
+            this.idTxtBox.Name = "idTxtBox";
+            this.idTxtBox.Size = new System.Drawing.Size(279, 20);
+            this.idTxtBox.TabIndex = 1;
+            this.idTxtBox.TextChanged += new System.EventHandler(this.idTxtBox_TextChanged);
             // 
             // firstNameTextBox
             // 
@@ -314,15 +314,15 @@
             this.pictureBox.TabIndex = 16;
             this.pictureBox.TabStop = false;
             // 
-            // barCodeLabel
+            // idLabel
             // 
-            this.barCodeLabel.AutoSize = true;
-            this.barCodeLabel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.barCodeLabel.Location = new System.Drawing.Point(0, 5);
-            this.barCodeLabel.Name = "barCodeLabel";
-            this.barCodeLabel.Size = new System.Drawing.Size(56, 13);
-            this.barCodeLabel.TabIndex = 17;
-            this.barCodeLabel.Text = "Identifiant:";
+            this.idLabel.AutoSize = true;
+            this.idLabel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.idLabel.Location = new System.Drawing.Point(0, 5);
+            this.idLabel.Name = "idLabel";
+            this.idLabel.Size = new System.Drawing.Size(56, 13);
+            this.idLabel.TabIndex = 17;
+            this.idLabel.Text = "Identifiant:";
             // 
             // registeredProfilesDataGridView
             // 
@@ -339,7 +339,7 @@
             this.genderCol,
             this.allergiesCol,
             this.waitForParentCol,
-            this.barCodeCol,
+            this.idCol,
             this.pictureFileNameCol});
             this.registeredProfilesDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.registeredProfilesDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -396,13 +396,13 @@
             this.waitForParentCol.Name = "waitForParentCol";
             this.waitForParentCol.ReadOnly = true;
             // 
-            // barCodeCol
+            // idCol
             // 
-            this.barCodeCol.DataPropertyName = "BarCode";
-            this.barCodeCol.HeaderText = "Identifiant";
-            this.barCodeCol.Name = "barCodeCol";
-            this.barCodeCol.ReadOnly = true;
-            this.barCodeCol.Visible = false;
+            this.idCol.DataPropertyName = "Id";
+            this.idCol.HeaderText = "Identifiant";
+            this.idCol.Name = "idCol";
+            this.idCol.ReadOnly = true;
+            this.idCol.Visible = false;
             // 
             // pictureFileNameCol
             // 
@@ -435,8 +435,8 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.barCodeLabel);
-            this.panel1.Controls.Add(this.barcodeTxtBox);
+            this.panel1.Controls.Add(this.idLabel);
+            this.panel1.Controls.Add(this.idTxtBox);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -576,6 +576,16 @@
             this.panel6.Size = new System.Drawing.Size(996, 34);
             this.panel6.TabIndex = 1;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(454, 8);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(151, 23);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "Désinscrire";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(288, 8);
@@ -601,16 +611,6 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(220, 20);
             this.textBox1.TabIndex = 0;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(454, 8);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(151, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Désinscrire";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // MainWindow
             // 
@@ -647,7 +647,7 @@
         #endregion
 
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.TextBox barcodeTxtBox;
+        private System.Windows.Forms.TextBox idTxtBox;
         private System.Windows.Forms.TextBox firstNameTextBox;
         private System.Windows.Forms.TextBox lastNameTextBox;
         private System.Windows.Forms.NumericUpDown ageUpDown;
@@ -663,7 +663,7 @@
         private System.Windows.Forms.RadioButton waitForParentNoBtn;
         private System.Windows.Forms.RadioButton waitForParentYesBtn;
         private System.Windows.Forms.TextBox allergiesTextBox;
-        private System.Windows.Forms.Label barCodeLabel;
+        private System.Windows.Forms.Label idLabel;
         private System.Windows.Forms.Button saveProfileBtn;
         private System.Windows.Forms.DataGridView registeredProfilesDataGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn firstNameCol;
@@ -672,7 +672,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn genderCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn allergiesCol;
         private System.Windows.Forms.DataGridViewCheckBoxColumn waitForParentCol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn barCodeCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn pictureFileNameCol;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel1;
