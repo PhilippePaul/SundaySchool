@@ -4,5 +4,9 @@ Export to Excel
 DONE - Liste de tous les enfants enregistrés
 Présence des moniteurs/aides
 DONE - Éditer et modifier la liste des présences
-Syncroniser la modification de profils avec la liste des présences
-SQL Database
+DONE - Syncroniser la modification de profils avec la liste des présences
+Fix tab indexes?
+Fix layout
+Pictures
+CheckinEntry in Database
+Change checkin/checkout layout
