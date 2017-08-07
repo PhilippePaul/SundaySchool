@@ -22,9 +22,13 @@ namespace SundaySchool
         private SortableBindingList<CheckinEntry> AllCheckinEntries = new SortableBindingList<CheckinEntry>();
         private DBConnection dbConnection = new DBConnection();
 
+        private CreateProfileWindow m_createProfileWindow = new CreateProfileWindow();
+
         public MainWindow()
         {
             InitializeComponent();
+            m_profileEditor.SaveProfileEventHandler += SaveProfile;
+
             this.Text = WindowTitle;
             try
             {
@@ -36,7 +40,7 @@ namespace SundaySchool
                 {
                     string serializedJson = File.ReadAllText(ProfilesFilePath);
                     //AllProfiles = JsonConvert.DeserializeObject<SortableBindingList<Profile>>(serializedJson) ?? new SortableBindingList<Profile>();
-                    
+
                 }
                 else
                 {
@@ -74,12 +78,12 @@ namespace SundaySchool
                 if (profile != null)
                 {
                     this.Text = WindowTitle;
-                    LoadProfile(profile);
+                    m_profileEditor.LoadProfile(profile);
                 }
                 else
                 {
                     this.Text = $"{WindowTitle} - L'identifiant ne correspond à aucun profile existant.";
-                    ClearFields();
+                    m_profileEditor.ClearProfile();
                 }
             }
             else
@@ -89,13 +93,13 @@ namespace SundaySchool
             }
         }
 
-        private void saveProfileBtn_Click(object sender, EventArgs e)
+        private void SaveProfile(object sender, EventArgs e)
         {
-            if (ValidateProfile())
+            if (m_profileEditor.ValidateProfile())
             {
-                var profile = ExtractProfile();
-                if (AllProfiles.FirstOrDefault(p => p.Id == profile.Id) == null)
-                    CreateProfile(profile);
+                var profile = m_profileEditor.GetProfile();
+                if (profile.Id != -1 && AllProfiles.FirstOrDefault(p => p.Id == profile.Id) == null)
+                    MessageBox.Show("Il semble il y avoir un problème avec le profil sélectionné.");
                 else
                     UpdateProfile(profile);
             }
@@ -108,7 +112,7 @@ namespace SundaySchool
                 var selectedRow = registeredProfilesDataGridView.SelectedRows[0];
                 if (selectedRow != null)
                 {
-                    LoadProfile(selectedRow.DataBoundItem as Profile);
+                    m_profileEditor.LoadProfile(selectedRow.DataBoundItem as Profile);
                 }
             }
         }
@@ -118,7 +122,76 @@ namespace SundaySchool
             DialogResult result = selectFileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                photoFileNameTextBox.Text = selectFileDialog.FileName;
+                //photoFileNameTextBox.Text = selectFileDialog.FileName;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //Find profile and add
+            int id = -1;
+            int.TryParse(textBox1.Text.Trim(), out id);
+            var profile = AllProfiles.FirstOrDefault(p => p.Id == id);
+            if (profile != null)
+            {
+                CheckinEntry entry = new CheckinEntry()
+                {
+                    CheckinTime = DateTime.Now,
+                    Person = profile
+                };
+                AllCheckinEntries.Add(entry);
+            }
+            else
+            {
+                //Display invalid id number
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //Find profile and update
+            int id = -1;
+            int.TryParse(textBox1.Text.Trim(), out id);
+            var entry = AllCheckinEntries.FirstOrDefault(x => x.Person.Id == id);
+            if (entry != null)
+            {
+                entry.CheckoutTime = DateTime.Now;
+                checkinDataGridView.Refresh();
+            }
+            else
+            {
+                //Display invalid id number
+            }
+        }
+
+        private void createProfileBtn_Click(object sender, EventArgs e)
+        {
+            var result = m_createProfileWindow.ShowDialog();
+            if (result == DialogResult.OK)
+                CreateProfile(m_createProfileWindow.ProfileEditor.GetProfile());
+        }
+
+        private void deleteProfileBtn_Click(object sender, EventArgs e)
+        {
+            if (registeredProfilesDataGridView.SelectedRows.Count > 0)
+            {
+                var selectedRow = registeredProfilesDataGridView.SelectedRows[0];
+                if (selectedRow != null)
+                {
+                    var result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer ce profil? Cette opération est irréversible.", "Attention!", MessageBoxButtons.YesNoCancel);
+                    if (result == DialogResult.Yes)
+                    {
+                        Profile profile = selectedRow.DataBoundItem as Profile;
+                        dbConnection.DeleteProfile(profile);
+                        var removedProfile = AllProfiles.FirstOrDefault(p => p.Id == profile.Id);
+                        if (removedProfile != null)
+                            AllProfiles.Remove(removedProfile);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vous devez sélectionner un profil.");
             }
         }
 
@@ -151,81 +224,15 @@ namespace SundaySchool
         {
             try
             {
-                AllProfiles.Add(profile);
                 //File.WriteAllText(ProfilesFilePath, JsonConvert.SerializeObject(AllProfiles));
-                dbConnection.CreateProfile(profile);
+                profile = dbConnection.CreateProfile(profile);
+                AllProfiles.Add(profile);
                 this.Text = $"{WindowTitle} - Le profile a été enregistré.";
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Il y a eu une erreur lors de l'enregistrement du profile. {ex.Message}");
             }
-        }
-
-        private void LoadProfile(Profile profile)
-        {
-            firstNameTextBox.Text = profile.FirstName;
-            lastNameTextBox.Text = profile.LastName;
-            ageUpDown.Value = profile.Age;
-            genderFemaleBtn.Checked = profile.Gender == Gender.Female;
-            genderMaleBtn.Checked = profile.Gender == Gender.Male;
-            allergiesTextBox.Lines = profile.Allergies.ToArray();
-            waitForParentYesBtn.Checked = profile.WaitForParent;
-            waitForParentNoBtn.Checked = !profile.WaitForParent;
-            photoFileNameTextBox.Text = profile.PictureFileName;
-        }
-
-        private Profile ExtractProfile()
-        {
-            Profile profile = new Profile()
-            {
-                FirstName = firstNameTextBox.Text,
-                LastName = lastNameTextBox.Text,
-                Age = (uint)ageUpDown.Value,
-                Gender = genderFemaleBtn.Checked ? Gender.Female : Gender.Male,
-                Allergies = allergiesTextBox.Lines.ToList(),
-                WaitForParent = waitForParentYesBtn.Checked,
-                PictureFileName = photoFileNameTextBox.Text,
-                Id = int.Parse(idTxtBox.Text)
-            };
-            return profile;
-        }
-
-        private bool ValidateProfile()
-        {
-            int id;
-            if (string.IsNullOrWhiteSpace(firstNameTextBox.Text))
-            {
-                this.Text = $"{WindowTitle} - Vous ne pouvez pas laissez le champ 'Prénom' vide.";
-                return false;
-            }
-            else if (string.IsNullOrWhiteSpace(lastNameTextBox.Text))
-            {
-                this.Text = $"{WindowTitle} - Vous ne pouvez pas laissez le champ 'Nom' vide.";
-                return false;
-            }
-            else if (!int.TryParse(idTxtBox.Text, out id))
-            {
-                this.Text = $"{WindowTitle} - L'identifiant ne peut être composé que de chiffres.";
-                return false;
-            }
-            else if (!string.IsNullOrWhiteSpace(photoFileNameTextBox.Text) && !File.Exists($"{PictureFilePath}{photoFileNameTextBox.Text}"))
-            {
-                this.Text = $"{WindowTitle} - Le fichier de photo est introuvable.";
-                return false;
-            }
-            this.Text = WindowTitle;
-            return true;
-        }
-
-        private void ClearFields()
-        {
-            firstNameTextBox.Text = "";
-            lastNameTextBox.Text = "";
-            ageUpDown.Value = 0;
-            genderMaleBtn.Checked = true;
-            allergiesTextBox.Lines = new string[] { };
-            waitForParentYesBtn.Checked = true;
         }
 
         private void ExportToExcel()
@@ -305,42 +312,5 @@ namespace SundaySchool
 
         #endregion
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //Find profile and add
-            int id = -1;
-            int.TryParse(textBox1.Text.Trim(), out id);
-            var profile = AllProfiles.FirstOrDefault(p => p.Id == id);
-            if(profile != null)
-            {
-                CheckinEntry entry = new CheckinEntry()
-                {
-                    CheckinTime = DateTime.Now,
-                    Person = profile
-                };
-                AllCheckinEntries.Add(entry);
-            }
-            else
-            {
-                //Display invalid id number
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //Find profile and update
-            int id = -1;
-            int.TryParse(textBox1.Text.Trim(), out id);
-            var entry = AllCheckinEntries.FirstOrDefault(x => x.Person.Id == id);
-            if (entry != null)
-            {
-                entry.CheckoutTime = DateTime.Now;
-                checkinDataGridView.Refresh();
-            }
-            else
-            {
-                //Display invalid id number
-            }
-        }
     }
 }

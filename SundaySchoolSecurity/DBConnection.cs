@@ -78,9 +78,39 @@ namespace SundaySchool
             }
         }
 
-        public void CreateProfile(Profile profile)
+        public Profile GetProfile(int idprofile)
         {
-            string query = $@"INSERT INTO profile (first_name, last_name, age, gender, allergies,
+            Profile profile = new Profile();
+            if (this.OpenConnection() == true)
+            {
+                string query = $@"SELECT * FROM profile WHERE idprofile = '{idprofile}'";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                if (dataReader.Read())
+                {
+                    profile = new Profile()
+                    {
+                        FirstName = dataReader["first_name"].ToString(),
+                        LastName = dataReader["last_name"].ToString(),
+                        Age = (uint)dataReader["age"],
+                        Gender = (Gender)dataReader["gender"],
+                        Allergies = dataReader["allergies"].ToString().Split(',').ToList(),
+                        WaitForParent = Convert.ToBoolean(dataReader["wait_for_parent"]),
+                        PictureFileName = dataReader["picture_filename"].ToString(),
+                        Id = (int)dataReader["idprofile"]
+                    };
+                }
+
+                dataReader.Close();
+            }
+            return profile;
+        }
+
+        public Profile CreateProfile(Profile profile)
+        {
+            if (this.OpenConnection() == true)
+            {
+                string query = $@"INSERT INTO profile (first_name, last_name, age, gender, allergies,
                             wait_for_parent, picture_filename)
                             VALUES('{profile.FirstName}',
                                    '{profile.LastName}',
@@ -89,13 +119,20 @@ namespace SundaySchool
                                    '{string.Join(",", profile.Allergies)}',
                                    '{Convert.ToInt32(profile.WaitForParent)}',
                                    '{profile.PictureFileName}')";
-
-            if (this.OpenConnection() == true)
-            {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 cmd.ExecuteNonQuery();
+
+                query = "SELECT LAST_INSERT_ID();";
+                cmd = new MySqlCommand(query, connection);
+                var dataReader = cmd.ExecuteReader();
+                if(dataReader.Read())
+                {
+                    profile.Id = Convert.ToInt32(dataReader[0]);
+                }
+
                 this.CloseConnection();
             }
+            return profile;
         }
 
         public void UpdateProfile(Profile profile)
@@ -110,9 +147,7 @@ namespace SundaySchool
                                                 wait_for_parent='{Convert.ToInt32(profile.WaitForParent)}',
                                                 picture_filename='{profile.PictureFileName}'
                                                 WHERE idprofile='{profile.Id}'";
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.CommandText = query;
-                cmd.Connection = connection;
+                MySqlCommand cmd = new MySqlCommand(query, connection);
                 cmd.ExecuteNonQuery();
                 this.CloseConnection();
             }
@@ -122,7 +157,7 @@ namespace SundaySchool
         {
             if (this.OpenConnection() == true)
             {
-                string query = $"DELETE FROM tableinfo WHERE profileid='{profile.Id}'";
+                string query = $"DELETE FROM profile WHERE idprofile='{profile.Id}'";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 cmd.ExecuteNonQuery();
                 this.CloseConnection();

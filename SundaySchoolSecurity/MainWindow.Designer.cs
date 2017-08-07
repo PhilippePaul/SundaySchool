@@ -31,26 +31,6 @@
         {
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.idTxtBox = new System.Windows.Forms.TextBox();
-            this.firstNameTextBox = new System.Windows.Forms.TextBox();
-            this.lastNameTextBox = new System.Windows.Forms.TextBox();
-            this.ageUpDown = new System.Windows.Forms.NumericUpDown();
-            this.firstNameLabel = new System.Windows.Forms.Label();
-            this.lastNameLabel = new System.Windows.Forms.Label();
-            this.genderMaleBtn = new System.Windows.Forms.RadioButton();
-            this.genderFemaleBtn = new System.Windows.Forms.RadioButton();
-            this.ageLabel = new System.Windows.Forms.Label();
-            this.profileGroupBox = new System.Windows.Forms.GroupBox();
-            this.photoFileNameTextBox = new System.Windows.Forms.TextBox();
-            this.choosePhotoBtn = new System.Windows.Forms.Button();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.waitForParentNoBtn = new System.Windows.Forms.RadioButton();
-            this.waitForParentYesBtn = new System.Windows.Forms.RadioButton();
-            this.saveProfileBtn = new System.Windows.Forms.Button();
-            this.allergiesTextBox = new System.Windows.Forms.TextBox();
-            this.allergiesLabel = new System.Windows.Forms.Label();
-            this.waitForParentLabel = new System.Windows.Forms.Label();
-            this.pictureBox = new System.Windows.Forms.PictureBox();
             this.idLabel = new System.Windows.Forms.Label();
             this.registeredProfilesDataGridView = new System.Windows.Forms.DataGridView();
             this.firstNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,6 +43,9 @@
             this.pictureFileNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2 = new System.Windows.Forms.Panel();
             this.profileListGroupBox = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.createProfileBtn = new System.Windows.Forms.Button();
+            this.deleteProfileBtn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.selectFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.mainwindowTabControl = new System.Windows.Forms.TabControl();
@@ -82,14 +65,11 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.ageUpDown)).BeginInit();
-            this.profileGroupBox.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+            this.m_profileEditor = new SundaySchool.ProfileEditor();
             ((System.ComponentModel.ISupportInitialize)(this.registeredProfilesDataGridView)).BeginInit();
             this.panel2.SuspendLayout();
             this.profileListGroupBox.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.mainwindowTabControl.SuspendLayout();
             this.profilesTabPage.SuspendLayout();
@@ -101,218 +81,12 @@
             // 
             // idTxtBox
             // 
-            this.idTxtBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.idTxtBox.Location = new System.Drawing.Point(190, 5);
+            this.idTxtBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.idTxtBox.Location = new System.Drawing.Point(56, 5);
             this.idTxtBox.Name = "idTxtBox";
             this.idTxtBox.Size = new System.Drawing.Size(279, 20);
             this.idTxtBox.TabIndex = 1;
             this.idTxtBox.TextChanged += new System.EventHandler(this.idTxtBox_TextChanged);
-            // 
-            // firstNameTextBox
-            // 
-            this.firstNameTextBox.Location = new System.Drawing.Point(95, 34);
-            this.firstNameTextBox.Name = "firstNameTextBox";
-            this.firstNameTextBox.Size = new System.Drawing.Size(163, 20);
-            this.firstNameTextBox.TabIndex = 2;
-            // 
-            // lastNameTextBox
-            // 
-            this.lastNameTextBox.Location = new System.Drawing.Point(95, 61);
-            this.lastNameTextBox.Name = "lastNameTextBox";
-            this.lastNameTextBox.Size = new System.Drawing.Size(163, 20);
-            this.lastNameTextBox.TabIndex = 3;
-            // 
-            // ageUpDown
-            // 
-            this.ageUpDown.Location = new System.Drawing.Point(98, 99);
-            this.ageUpDown.Name = "ageUpDown";
-            this.ageUpDown.Size = new System.Drawing.Size(47, 20);
-            this.ageUpDown.TabIndex = 7;
-            // 
-            // firstNameLabel
-            // 
-            this.firstNameLabel.AutoSize = true;
-            this.firstNameLabel.Location = new System.Drawing.Point(43, 37);
-            this.firstNameLabel.Name = "firstNameLabel";
-            this.firstNameLabel.Size = new System.Drawing.Size(46, 13);
-            this.firstNameLabel.TabIndex = 8;
-            this.firstNameLabel.Text = "Prénom:";
-            this.firstNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lastNameLabel
-            // 
-            this.lastNameLabel.AutoSize = true;
-            this.lastNameLabel.Location = new System.Drawing.Point(57, 68);
-            this.lastNameLabel.Name = "lastNameLabel";
-            this.lastNameLabel.Size = new System.Drawing.Size(32, 13);
-            this.lastNameLabel.TabIndex = 9;
-            this.lastNameLabel.Text = "Nom:";
-            // 
-            // genderMaleBtn
-            // 
-            this.genderMaleBtn.AutoSize = true;
-            this.genderMaleBtn.Checked = true;
-            this.genderMaleBtn.Dock = System.Windows.Forms.DockStyle.Left;
-            this.genderMaleBtn.Location = new System.Drawing.Point(0, 0);
-            this.genderMaleBtn.Name = "genderMaleBtn";
-            this.genderMaleBtn.Size = new System.Drawing.Size(60, 27);
-            this.genderMaleBtn.TabIndex = 13;
-            this.genderMaleBtn.TabStop = true;
-            this.genderMaleBtn.Text = "Garçon";
-            this.genderMaleBtn.UseVisualStyleBackColor = true;
-            // 
-            // genderFemaleBtn
-            // 
-            this.genderFemaleBtn.AutoSize = true;
-            this.genderFemaleBtn.Dock = System.Windows.Forms.DockStyle.Right;
-            this.genderFemaleBtn.Location = new System.Drawing.Point(68, 0);
-            this.genderFemaleBtn.Name = "genderFemaleBtn";
-            this.genderFemaleBtn.Size = new System.Drawing.Size(43, 27);
-            this.genderFemaleBtn.TabIndex = 14;
-            this.genderFemaleBtn.TabStop = true;
-            this.genderFemaleBtn.Text = "Fille";
-            this.genderFemaleBtn.UseVisualStyleBackColor = true;
-            // 
-            // ageLabel
-            // 
-            this.ageLabel.AutoSize = true;
-            this.ageLabel.Location = new System.Drawing.Point(60, 101);
-            this.ageLabel.Name = "ageLabel";
-            this.ageLabel.Size = new System.Drawing.Size(29, 13);
-            this.ageLabel.TabIndex = 15;
-            this.ageLabel.Text = "Age:";
-            // 
-            // profileGroupBox
-            // 
-            this.profileGroupBox.Controls.Add(this.photoFileNameTextBox);
-            this.profileGroupBox.Controls.Add(this.choosePhotoBtn);
-            this.profileGroupBox.Controls.Add(this.panel4);
-            this.profileGroupBox.Controls.Add(this.panel3);
-            this.profileGroupBox.Controls.Add(this.saveProfileBtn);
-            this.profileGroupBox.Controls.Add(this.allergiesTextBox);
-            this.profileGroupBox.Controls.Add(this.allergiesLabel);
-            this.profileGroupBox.Controls.Add(this.waitForParentLabel);
-            this.profileGroupBox.Controls.Add(this.pictureBox);
-            this.profileGroupBox.Controls.Add(this.firstNameLabel);
-            this.profileGroupBox.Controls.Add(this.ageLabel);
-            this.profileGroupBox.Controls.Add(this.firstNameTextBox);
-            this.profileGroupBox.Controls.Add(this.lastNameTextBox);
-            this.profileGroupBox.Controls.Add(this.ageUpDown);
-            this.profileGroupBox.Controls.Add(this.lastNameLabel);
-            this.profileGroupBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.profileGroupBox.Location = new System.Drawing.Point(472, 3);
-            this.profileGroupBox.Name = "profileGroupBox";
-            this.profileGroupBox.Size = new System.Drawing.Size(527, 470);
-            this.profileGroupBox.TabIndex = 16;
-            this.profileGroupBox.TabStop = false;
-            this.profileGroupBox.Text = "Profil";
-            // 
-            // photoFileNameTextBox
-            // 
-            this.photoFileNameTextBox.Location = new System.Drawing.Point(364, 282);
-            this.photoFileNameTextBox.Name = "photoFileNameTextBox";
-            this.photoFileNameTextBox.Size = new System.Drawing.Size(157, 20);
-            this.photoFileNameTextBox.TabIndex = 26;
-            // 
-            // choosePhotoBtn
-            // 
-            this.choosePhotoBtn.Location = new System.Drawing.Point(279, 281);
-            this.choosePhotoBtn.Name = "choosePhotoBtn";
-            this.choosePhotoBtn.Size = new System.Drawing.Size(79, 23);
-            this.choosePhotoBtn.TabIndex = 25;
-            this.choosePhotoBtn.Text = "Choisir photo";
-            this.choosePhotoBtn.UseVisualStyleBackColor = true;
-            this.choosePhotoBtn.Click += new System.EventHandler(this.choosePhotoBtn_Click);
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.genderFemaleBtn);
-            this.panel4.Controls.Add(this.genderMaleBtn);
-            this.panel4.Location = new System.Drawing.Point(100, 175);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(111, 27);
-            this.panel4.TabIndex = 24;
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.waitForParentNoBtn);
-            this.panel3.Controls.Add(this.waitForParentYesBtn);
-            this.panel3.Location = new System.Drawing.Point(100, 130);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(111, 34);
-            this.panel3.TabIndex = 23;
-            // 
-            // waitForParentNoBtn
-            // 
-            this.waitForParentNoBtn.AutoSize = true;
-            this.waitForParentNoBtn.Dock = System.Windows.Forms.DockStyle.Right;
-            this.waitForParentNoBtn.Location = new System.Drawing.Point(66, 0);
-            this.waitForParentNoBtn.Name = "waitForParentNoBtn";
-            this.waitForParentNoBtn.Size = new System.Drawing.Size(45, 34);
-            this.waitForParentNoBtn.TabIndex = 1;
-            this.waitForParentNoBtn.TabStop = true;
-            this.waitForParentNoBtn.Text = "Non";
-            this.waitForParentNoBtn.UseVisualStyleBackColor = true;
-            // 
-            // waitForParentYesBtn
-            // 
-            this.waitForParentYesBtn.AutoSize = true;
-            this.waitForParentYesBtn.Checked = true;
-            this.waitForParentYesBtn.Dock = System.Windows.Forms.DockStyle.Left;
-            this.waitForParentYesBtn.Location = new System.Drawing.Point(0, 0);
-            this.waitForParentYesBtn.Name = "waitForParentYesBtn";
-            this.waitForParentYesBtn.Size = new System.Drawing.Size(41, 34);
-            this.waitForParentYesBtn.TabIndex = 0;
-            this.waitForParentYesBtn.TabStop = true;
-            this.waitForParentYesBtn.Text = "Oui";
-            this.waitForParentYesBtn.UseVisualStyleBackColor = true;
-            // 
-            // saveProfileBtn
-            // 
-            this.saveProfileBtn.Location = new System.Drawing.Point(9, 441);
-            this.saveProfileBtn.Name = "saveProfileBtn";
-            this.saveProfileBtn.Size = new System.Drawing.Size(75, 23);
-            this.saveProfileBtn.TabIndex = 22;
-            this.saveProfileBtn.Text = "Enregistrer";
-            this.saveProfileBtn.UseVisualStyleBackColor = true;
-            this.saveProfileBtn.Click += new System.EventHandler(this.saveProfileBtn_Click);
-            // 
-            // allergiesTextBox
-            // 
-            this.allergiesTextBox.Location = new System.Drawing.Point(9, 237);
-            this.allergiesTextBox.Multiline = true;
-            this.allergiesTextBox.Name = "allergiesTextBox";
-            this.allergiesTextBox.Size = new System.Drawing.Size(249, 174);
-            this.allergiesTextBox.TabIndex = 21;
-            // 
-            // allergiesLabel
-            // 
-            this.allergiesLabel.AutoSize = true;
-            this.allergiesLabel.Location = new System.Drawing.Point(9, 220);
-            this.allergiesLabel.Name = "allergiesLabel";
-            this.allergiesLabel.Size = new System.Drawing.Size(46, 13);
-            this.allergiesLabel.TabIndex = 20;
-            this.allergiesLabel.Text = "Allergies";
-            // 
-            // waitForParentLabel
-            // 
-            this.waitForParentLabel.AutoSize = true;
-            this.waitForParentLabel.Location = new System.Drawing.Point(6, 139);
-            this.waitForParentLabel.Name = "waitForParentLabel";
-            this.waitForParentLabel.Size = new System.Drawing.Size(83, 13);
-            this.waitForParentLabel.TabIndex = 18;
-            this.waitForParentLabel.Text = "Attendre parent:";
-            // 
-            // pictureBox
-            // 
-            this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox.Image = global::SundaySchool.Properties.Resources.photo_par_defaut;
-            this.pictureBox.Location = new System.Drawing.Point(279, 34);
-            this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(242, 241);
-            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox.TabIndex = 16;
-            this.pictureBox.TabStop = false;
             // 
             // idLabel
             // 
@@ -348,7 +122,7 @@
             this.registeredProfilesDataGridView.Name = "registeredProfilesDataGridView";
             this.registeredProfilesDataGridView.ReadOnly = true;
             this.registeredProfilesDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.registeredProfilesDataGridView.Size = new System.Drawing.Size(463, 419);
+            this.registeredProfilesDataGridView.Size = new System.Drawing.Size(656, 419);
             this.registeredProfilesDataGridView.TabIndex = 20;
             this.registeredProfilesDataGridView.SelectionChanged += new System.EventHandler(this.registeredProfilesDataGridView_SelectionChanged);
             // 
@@ -419,29 +193,67 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(469, 470);
+            this.panel2.Size = new System.Drawing.Size(662, 523);
             this.panel2.TabIndex = 22;
             // 
             // profileListGroupBox
             // 
             this.profileListGroupBox.Controls.Add(this.registeredProfilesDataGridView);
+            this.profileListGroupBox.Controls.Add(this.groupBox1);
             this.profileListGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.profileListGroupBox.Location = new System.Drawing.Point(0, 32);
             this.profileListGroupBox.Name = "profileListGroupBox";
-            this.profileListGroupBox.Size = new System.Drawing.Size(469, 438);
+            this.profileListGroupBox.Size = new System.Drawing.Size(662, 491);
             this.profileListGroupBox.TabIndex = 21;
             this.profileListGroupBox.TabStop = false;
             this.profileListGroupBox.Text = "Liste des profils";
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.createProfileBtn);
+            this.groupBox1.Controls.Add(this.deleteProfileBtn);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox1.Location = new System.Drawing.Point(3, 435);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(0);
+            this.groupBox1.Size = new System.Drawing.Size(656, 53);
+            this.groupBox1.TabIndex = 23;
+            this.groupBox1.TabStop = false;
+            // 
+            // createProfileBtn
+            // 
+            this.createProfileBtn.Dock = System.Windows.Forms.DockStyle.Right;
+            this.createProfileBtn.Location = new System.Drawing.Point(418, 13);
+            this.createProfileBtn.Margin = new System.Windows.Forms.Padding(0);
+            this.createProfileBtn.Name = "createProfileBtn";
+            this.createProfileBtn.Size = new System.Drawing.Size(123, 40);
+            this.createProfileBtn.TabIndex = 22;
+            this.createProfileBtn.Text = "Ajouter..";
+            this.createProfileBtn.UseVisualStyleBackColor = true;
+            this.createProfileBtn.Click += new System.EventHandler(this.createProfileBtn_Click);
+            // 
+            // deleteProfileBtn
+            // 
+            this.deleteProfileBtn.Dock = System.Windows.Forms.DockStyle.Right;
+            this.deleteProfileBtn.Location = new System.Drawing.Point(541, 13);
+            this.deleteProfileBtn.Margin = new System.Windows.Forms.Padding(0);
+            this.deleteProfileBtn.Name = "deleteProfileBtn";
+            this.deleteProfileBtn.Size = new System.Drawing.Size(115, 40);
+            this.deleteProfileBtn.TabIndex = 21;
+            this.deleteProfileBtn.Text = "Supprimer";
+            this.deleteProfileBtn.UseVisualStyleBackColor = true;
+            this.deleteProfileBtn.Click += new System.EventHandler(this.deleteProfileBtn_Click);
+            // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.idLabel);
             this.panel1.Controls.Add(this.idTxtBox);
+            this.panel1.Controls.Add(this.idLabel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.panel1.Size = new System.Drawing.Size(469, 32);
+            this.panel1.Size = new System.Drawing.Size(662, 32);
             this.panel1.TabIndex = 22;
             // 
             // selectFileDialog
@@ -456,17 +268,17 @@
             this.mainwindowTabControl.Location = new System.Drawing.Point(0, 0);
             this.mainwindowTabControl.Name = "mainwindowTabControl";
             this.mainwindowTabControl.SelectedIndex = 0;
-            this.mainwindowTabControl.Size = new System.Drawing.Size(1010, 502);
+            this.mainwindowTabControl.Size = new System.Drawing.Size(1134, 555);
             this.mainwindowTabControl.TabIndex = 27;
             // 
             // profilesTabPage
             // 
             this.profilesTabPage.Controls.Add(this.panel2);
-            this.profilesTabPage.Controls.Add(this.profileGroupBox);
+            this.profilesTabPage.Controls.Add(this.m_profileEditor);
             this.profilesTabPage.Location = new System.Drawing.Point(4, 22);
             this.profilesTabPage.Name = "profilesTabPage";
             this.profilesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.profilesTabPage.Size = new System.Drawing.Size(1002, 476);
+            this.profilesTabPage.Size = new System.Drawing.Size(1126, 529);
             this.profilesTabPage.TabIndex = 0;
             this.profilesTabPage.Text = "Profils";
             this.profilesTabPage.UseVisualStyleBackColor = true;
@@ -477,7 +289,7 @@
             this.checkinTabPage.Location = new System.Drawing.Point(4, 22);
             this.checkinTabPage.Name = "checkinTabPage";
             this.checkinTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.checkinTabPage.Size = new System.Drawing.Size(1002, 476);
+            this.checkinTabPage.Size = new System.Drawing.Size(1126, 529);
             this.checkinTabPage.TabIndex = 1;
             this.checkinTabPage.Text = "Présences";
             this.checkinTabPage.UseVisualStyleBackColor = true;
@@ -489,7 +301,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(3, 3);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(996, 470);
+            this.panel5.Size = new System.Drawing.Size(1120, 523);
             this.panel5.TabIndex = 1;
             // 
             // checkinDataGridView
@@ -508,7 +320,7 @@
             this.checkinDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.checkinDataGridView.Location = new System.Drawing.Point(0, 34);
             this.checkinDataGridView.Name = "checkinDataGridView";
-            this.checkinDataGridView.Size = new System.Drawing.Size(996, 436);
+            this.checkinDataGridView.Size = new System.Drawing.Size(1120, 489);
             this.checkinDataGridView.TabIndex = 0;
             this.checkinDataGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.checkinDataGridView_CellFormatting);
             // 
@@ -573,7 +385,7 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(0, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(996, 34);
+            this.panel6.Size = new System.Drawing.Size(1120, 34);
             this.panel6.TabIndex = 1;
             // 
             // button2
@@ -612,24 +424,25 @@
             this.textBox1.Size = new System.Drawing.Size(220, 20);
             this.textBox1.TabIndex = 0;
             // 
+            // m_profileEditor
+            // 
+            this.m_profileEditor.Dock = System.Windows.Forms.DockStyle.Right;
+            this.m_profileEditor.Location = new System.Drawing.Point(665, 3);
+            this.m_profileEditor.Name = "m_profileEditor";
+            this.m_profileEditor.Size = new System.Drawing.Size(458, 523);
+            this.m_profileEditor.TabIndex = 23;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1010, 502);
+            this.ClientSize = new System.Drawing.Size(1134, 555);
             this.Controls.Add(this.mainwindowTabControl);
             this.Name = "MainWindow";
-            ((System.ComponentModel.ISupportInitialize)(this.ageUpDown)).EndInit();
-            this.profileGroupBox.ResumeLayout(false);
-            this.profileGroupBox.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.registeredProfilesDataGridView)).EndInit();
             this.panel2.ResumeLayout(false);
             this.profileListGroupBox.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.mainwindowTabControl.ResumeLayout(false);
@@ -648,23 +461,7 @@
 
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.TextBox idTxtBox;
-        private System.Windows.Forms.TextBox firstNameTextBox;
-        private System.Windows.Forms.TextBox lastNameTextBox;
-        private System.Windows.Forms.NumericUpDown ageUpDown;
-        private System.Windows.Forms.Label firstNameLabel;
-        private System.Windows.Forms.Label lastNameLabel;
-        private System.Windows.Forms.RadioButton genderMaleBtn;
-        private System.Windows.Forms.RadioButton genderFemaleBtn;
-        private System.Windows.Forms.Label ageLabel;
-        private System.Windows.Forms.GroupBox profileGroupBox;
-        private System.Windows.Forms.PictureBox pictureBox;
-        private System.Windows.Forms.Label allergiesLabel;
-        private System.Windows.Forms.Label waitForParentLabel;
-        private System.Windows.Forms.RadioButton waitForParentNoBtn;
-        private System.Windows.Forms.RadioButton waitForParentYesBtn;
-        private System.Windows.Forms.TextBox allergiesTextBox;
         private System.Windows.Forms.Label idLabel;
-        private System.Windows.Forms.Button saveProfileBtn;
         private System.Windows.Forms.DataGridView registeredProfilesDataGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn firstNameCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn lastNameCol;
@@ -677,11 +474,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.GroupBox profileListGroupBox;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Button choosePhotoBtn;
         private System.Windows.Forms.OpenFileDialog selectFileDialog;
-        private System.Windows.Forms.TextBox photoFileNameTextBox;
         private System.Windows.Forms.TabControl mainwindowTabControl;
         private System.Windows.Forms.TabPage profilesTabPage;
         private System.Windows.Forms.TabPage checkinTabPage;
@@ -699,6 +492,10 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button createProfileBtn;
+        private System.Windows.Forms.Button deleteProfileBtn;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private ProfileEditor m_profileEditor;
     }
 }
 

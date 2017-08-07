@@ -59,6 +59,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CheckinEntry.cs" />
+    <Compile Include="CreateProfileWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateProfileWindow.Designer.cs">
+      <DependentUpon>CreateProfileWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="DBConnection.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
@@ -82,6 +88,9 @@
     </Compile>
     <Compile Include="PropertyComparer.cs" />
     <Compile Include="SortableBindingList.cs" />
+    <EmbeddedResource Include="CreateProfileWindow.resx">
+      <DependentUpon>CreateProfileWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
